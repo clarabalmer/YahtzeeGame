@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+/Users/clarabalmer/Desktop/Coding-Stuff/YahtzeeGame/.metadata/.plugins/org.eclipse.jdt.core
+1816963510.index
+28980220.index
+1865797976.index
