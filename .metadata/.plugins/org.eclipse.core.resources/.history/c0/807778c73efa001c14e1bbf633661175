@@ -1,0 +1,155 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class YahtzeeGame {
+	//bugs: wouldn't let me score a zero in aces
+	//accidentally pressed enter after a random character and it wasted a roll--
+	//change it to N to reroll none?
+	//'you've already scored that category'
+	//yahtzee bonus
+	
+	public static void main(String[] args) {
+		Scanner scnr = new Scanner(System.in);
+		
+		welcome();
+		displayRules();
+		enterContinue();
+		
+		ScoreCard score = new ScoreCard();
+		//turn level
+		for (int i = 1; i <= 13; i++) {
+			turn(scnr, score, i);
+		}
+		endgame(score);
+		System.out.println("I hope you'll play again when I make it two player!");
+		
+		scnr.close();
+	}
+//	public static void playerMenu(Scanner scnr) {
+//		System.out.print("How many players? ");
+//		int players = scnr.nextInt();
+//		
+//	}
+	
+	public static void turn(Scanner scnr, ScoreCard score, int roundNumber) {
+		System.out.println("TURN NUMBER " + roundNumber);
+		DiceCup roll = new DiceCup();
+		roll.displayDice();
+		System.out.print("Dice to re-roll: ");
+		reRoll(scnr, roll);
+		roll.displayDice();
+		System.out.print("Dice to re-roll: ");
+		reRoll(scnr, roll);
+		roll.displayDice();
+		
+		score.displayScorecard();
+		System.out.print("\nHow would you like to score this roll? ");
+		scoreRoll(scnr, roll, score);
+		System.out.println("Thanks! Score recorded:)\n");
+	}
+	public static void endgame(ScoreCard score) {
+		System.out.println("What a game! Lets see how you did:");
+		enterContinue();
+		score.scoreFinal();
+		score.displayScorecard();
+		if (score.getBonusBool()) {
+			System.out.println("Wow! You even got the Upper Section bonus!");
+			System.out.println("Your total score was " + (score.getUpperTotal() + 35 + score.getLowerTotal()));
+		} else {
+			System.out.println("Your total score was " + (score.getUpperTotal() + score.getLowerTotal()));
+		}
+		
+	}
+	
+	public static void scoreRoll(Scanner scnr, DiceCup roll, ScoreCard score) {
+		String userChoice = scnr.nextLine().toLowerCase();
+		//add if statements so if score is already taken, error
+		if (userChoice.equals("a")) {
+			score.setAces(score.scoreAces(roll.diceArray()));
+		} else if (userChoice.equals("2")) {
+			score.setTwos(score.scoreTwos(roll.diceArray()));
+		} else if (userChoice.equals("3")) {
+			score.setThrees(score.scoreThrees(roll.diceArray()));
+		} else if (userChoice.equals("4")) {
+			score.setFours(score.scoreFours(roll.diceArray()));
+		} else if (userChoice.equals("5")) {
+			score.setFives(score.scoreFives(roll.diceArray()));
+		} else if (userChoice.equals("6")) {
+			score.setSixes(score.scoreSixes(roll.diceArray()));
+		} else if (userChoice.equals("3k")) {
+			score.setThreeOfAKind(score.scoreThreeOfAKind(roll.diceArray()));
+		} else if (userChoice.equals("4k")) {
+			score.setFourOfAKind(score.scoreFourOfAKind(roll.diceArray()));
+		} else if (userChoice.equals("fh")) {
+			score.setFullHouse(score.scoreFullHouse(roll.diceArray()));
+		} else if (userChoice.equals("ss")) {
+			score.setSmallStraight(score.scoreSmallStraight(roll.diceArray()));
+		} else if (userChoice.equals("ls")) {
+			score.setLargeStraight(score.scoreLargeStraight(roll.diceArray()));
+		} else if (userChoice.equals("y")) {
+			score.setYahtzee(score.scoreYahtzee(roll.diceArray()));
+		} else if (userChoice.equals("c")) {
+			score.setChance(score.scoreChance(roll.diceArray()));
+		} else {
+			System.out.print("Invalid input. How would you like to score this roll? ");
+			scoreRoll(scnr, roll, score);
+		}
+		
+	}
+	public static void reRoll(Scanner scnr, DiceCup roll) {
+		Random rand = new Random();
+		String userReroll = scnr.nextLine().toLowerCase();
+		if (userReroll.contains("a")) {
+			roll.setDieOne(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("b")) {
+			roll.setDieTwo(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("c")) {
+			roll.setDieThree(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("d")) {
+			roll.setDieFour(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("e")) {
+			roll.setDieFive(1 + Math.abs(rand.nextInt() % 6));
+		}
+		
+	}
+	
+	public static void welcome() {
+		System.out.println("Hello! Welcome to (currently one-player) Yahtzee.");
+		System.out.println("Here's how to play:");
+	}
+	
+	public static void displayRules() {
+		System.out.println("\nFor thirteen turns, you roll five dice and score them.");
+		System.out.println("Each turn gets two rerolls, where you may select any dice to roll again.");
+		System.out.println("After each turn, choose the category in which to score the dice.");
+		System.out.println("\nCategories are as follows:");
+		System.out.println("\nUpper Section:");
+		System.out.println("Aces: sum of dice with the number 1");
+		System.out.println("Twos: sum of dice with the number 2");
+		System.out.println("Threes: sum of dice with the number 3");
+		System.out.println("Fours: sum of dice with the number 4");
+		System.out.println("Fives: sum of dice with the number 5");
+		System.out.println("Sixes: sum of dice with the number 6");
+		System.out.println("\nLower Section:");
+		System.out.println("Three of a Kind: sum of all dice");
+		System.out.println("Four of a Kind: sum of all dice");
+		System.out.println("Full House (3 of one number, 2 of another): 25");
+		System.out.println("Small Straight (four sequential numbers): 30");
+		System.out.println("Large Straight (five sequential numbers): 40");
+		System.out.println("Yahtzee (6 of a kind): 50");
+		System.out.println("Chance: sum of all dice");
+		System.out.println("\nIf you've scored a yahtzee as 50 and get another, choose an empty category to fill with your 100 point yahtzee bonus.");
+		System.out.println("At the end, if the upper section scored 63 or more, a bonus of 35 is added");
+		System.out.println("Press enter to begin!");
+	}
+
+	public static void enterContinue() {
+		try {
+			System.in.read();
+		} catch(Exception e) {}
+	}
+}

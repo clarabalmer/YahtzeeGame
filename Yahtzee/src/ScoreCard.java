@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ScoreCard {
-	//NOTE: getters get integers, setters take ints and set as strings. Let's see how we like it?
+	//NOTE:
+	//Two types of getters, one to get string, one to get int
+	//setters take int parameter and set as string
 	private String aces = "";
 	private String twos = "";
 	private String threes = "";
@@ -15,8 +20,11 @@ public class ScoreCard {
 	private String smallStraight = "";
 	private String largeStraight = "";
 	private String yahtzee = "";
+	private int yahtzeeBonusCount = 0;
 	private String chance = "";
 	private String lowerTotal = "";
+	private ArrayList<String> validCategories = new ArrayList<String>(Arrays.asList("a", "2", "3", "4", "5", "6", "3k", "4k", "fh", "ss", "ls", "y", "c"));
+	private ArrayList<String> stillToScore = new ArrayList<String>(Arrays.asList("a", "2", "3", "4", "5", "6", "3k", "4k", "fh", "ss", "ls", "y", "c"));
 	
 	//constructors
 	ScoreCard() {}
@@ -24,17 +32,20 @@ public class ScoreCard {
 	//methods
 	@Override
 	public String toString() {
-		return "Aces: " + getAces() + " Twos: " + getTwos() + " Threes: " + getThrees() + " Fours: " + getFours() + " Fives: " + getFives() + " Sixes: " + getSixes() + " Three of a kind: " + getThreeOfAKind() + " Four of a kind:" + getFourOfAKind() + " Full House: " + getFullHouse() + " Small straight: " + getSmallStraight() + " Large straight: " + getLargeStraight() + " Yahtzee: " + getYahtzee() + " Chance: " + getChance(); 
+		return "Aces: " + getAcesInt() + " Twos: " + getTwosInt() + " Threes: " + getThreesInt() + " Fours: " + getFoursInt() + " Fives: " + getFivesInt() + 
+				" Sixes: " + getSixesInt() + " Three of a kind: " + getThreeOfAKindInt() + " Four of a kind:" + getFourOfAKindInt() + 
+				" Full House: " + getFullHouseInt() + " Small straight: " + getSmallStraightInt() + " Large straight: " + getLargeStraightInt() + 
+				" Yahtzee: " + getYahtzeeInt() + " Chance: " + getChanceInt() + "Yahtzee bonuses: " + yahtzeeBonusCount;
 	}
 	
 	public void scoreFinal() {
-		int upperSum = getAces() + getTwos() + getThrees() + getFours() + getFives() + getSixes();
+		int upperSum = getAcesInt() + getTwosInt() + getThreesInt() + getFoursInt() + getFivesInt() + getSixesInt();
 		upperTotal = Integer.toString(upperSum);
 		if (upperSum >= 63) {
 			bonus = " + 35 bonus!";
 			bonusBool = true;
 		}
-		int lowerSum = getThreeOfAKind() + getFourOfAKind() + getFullHouse() + getSmallStraight() + getLargeStraight() + getYahtzee() + getChance();
+		int lowerSum = getThreeOfAKindInt() + getFourOfAKindInt() + getFullHouseInt() + getSmallStraightInt() + getLargeStraightInt() + getYahtzeeInt() + getChanceInt() + (100 * yahtzeeBonusCount);
 		lowerTotal = Integer.toString(lowerSum);
 	}
 	public int scoreAces(int[] diceList) {
@@ -274,106 +285,169 @@ public class ScoreCard {
 		System.out.println("Large Straight			LS|" + largeStraight);
 		System.out.println("Yahtzee				 Y|" + yahtzee);
 		System.out.println("Chance				 C|" + chance);
+		System.out.println("Yahtzee BONUS			  |" + yahtzeeBonusCount + "*100");
 		System.out.println("==================================|" + lowerTotal);
 	}
 	
 	//getters/setters
-	public int getAces() {
+	public String getAces() {
+		return aces;
+	}
+	public int getAcesInt() {
 		return Integer.parseInt(aces);
-	};
+	}
 	public void setAces(int aces) {
 		this.aces = String.valueOf(aces);
 	}
-	public int getTwos() {
+	public String getTwos() {
+		return twos;
+	}
+	public int getTwosInt() {
 		return Integer.parseInt(twos);
 	}
 	public void setTwos(int twos) {
 		this.twos = String.valueOf(twos);
 	}
-	public int getThrees() {
+	public String getThrees() {
+		return threes;
+	}
+	public int getThreesInt() {
 		return Integer.parseInt(threes);
 	}
 	public void setThrees(int threes) {
 		this.threes = String.valueOf(threes);
 	}
-	public int getFours() {
+	public String getFours() {
+		return fours;
+	}
+	public int getFoursInt() {
 		return Integer.parseInt(fours);
 	}
 	public void setFours(int fours) {
 		this.fours = String.valueOf(fours);
 	}
-	public int getFives() {
+	public String getFives() {
+		return fives;
+	}
+	public int getFivesInt() {
 		return Integer.parseInt(fives);
 	}
 	public void setFives(int fives) {
 		this.fives = String.valueOf(fives);
 	}
-	public int getSixes() {
+	public String getSixes() {
+		return sixes;
+	}
+	public int getSixesInt() {
 		return Integer.parseInt(sixes);
 	}
 	public void setSixes(int sixes) {
 		this.sixes = String.valueOf(sixes);
 	}
-	public int getUpperTotal() {
+	public String getUpperTotal() {
+		return upperTotal;
+	}
+	public int getUpperTotalInt() {
 		return Integer.parseInt(upperTotal);
 	}
 	public void setUpperTotal(String upperTotal) {
 		this.upperTotal = String.valueOf(upperTotal);
 	}
-	//do I need getters/setters for bonus?
 	public boolean getBonusBool() {
 		return bonusBool;
 	}
 	public void setBonusBool(boolean bonusBool) {
 		this.bonusBool = bonusBool;
 	}
-	public int getThreeOfAKind() {
+	public String getThreeOfAKind() {
+		return threeOfAKind;
+	}
+	public int getThreeOfAKindInt() {
 		return Integer.parseInt(threeOfAKind);
 	}
 	public void setThreeOfAKind(int threeOfAKind) {
 		this.threeOfAKind = String.valueOf(threeOfAKind);
 	}
-	public int getFourOfAKind() {
+	public String getFourOfAKind() {
+		return fourOfAKind;
+	}
+	public int getFourOfAKindInt() {
 		return Integer.parseInt(fourOfAKind);
 	}
 	public void setFourOfAKind(int fourOfAKind) {
 		this.fourOfAKind = String.valueOf(fourOfAKind);
 	}
-	public int getFullHouse() {
+	public String getFullHouse() {
+		return fullHouse;
+	}
+	public int getFullHouseInt() {
 		return Integer.parseInt(fullHouse);
 	}
 	public void setFullHouse(int fullHouse) {
 		this.fullHouse = String.valueOf(fullHouse);
 	}
-	public int getSmallStraight() {
+	public String getSmallStraight() {
+		return smallStraight;
+	}
+	public int getSmallStraightInt() {
 		return Integer.parseInt(smallStraight);
 	}
 	public void setSmallStraight(int smallStraight) {
 		this.smallStraight = String.valueOf(smallStraight);
 	}
-	public int getLargeStraight() {
+	public String getLargeStraight() {
+		return largeStraight;
+	}
+	public int getLargeStraightInt() {
 		return Integer.parseInt(largeStraight);
 	}
 	public void setLargeStraight(int largeStraight) {
 		this.largeStraight = String.valueOf(largeStraight);
 	}
-	public int getYahtzee() {
+	public String getYahtzee() {
+		return yahtzee;
+	}
+	public int getYahtzeeInt() {
 		return Integer.parseInt(yahtzee);
 	}
 	public void setYahtzee(int yahtzee) {
 		this.yahtzee = String.valueOf(yahtzee);
 	}
-	public int getChance() {
+	public int getYahtzeeBonusCount() {
+		return yahtzeeBonusCount;
+	}
+	public void setYahtzeeBonusCount(int yahtzeeBonusCount) {
+		this.yahtzeeBonusCount = yahtzeeBonusCount;
+	}
+	public String getChance() {
+		return chance;
+	}
+	public int getChanceInt() {
 		return Integer.parseInt(chance);
 	}
 	public void setChance(int chance) {
 		this.chance = String.valueOf(chance);
 	}
-	public int getLowerTotal() {
+	public String getLowerTotal() {
+		return lowerTotal;
+	}
+	public int getLowerTotalInt() {
 		return Integer.parseInt(lowerTotal);
 	}
 	public void setLowerTotal(int lowerTotal) {
 		this.lowerTotal = String.valueOf(lowerTotal);
 	}
-	
+	public ArrayList<String> getValidCategories() {
+		return validCategories;
+	}
+	public ArrayList<String> getStillToScore() {
+		return stillToScore;
+	}
+	//special setters:
+	public void removeFromStillToScore(String userChoice) {
+		stillToScore.remove(userChoice);
+	}
+	public void incrementYahtzeeBonusCount() {
+		yahtzeeBonusCount++;
+	}
 }

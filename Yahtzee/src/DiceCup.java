@@ -23,6 +23,10 @@ public class DiceCup {
 		int[] diceList = {getDieOne(), getDieTwo(), getDieThree(), getDieFour(), getDieFive()};
 		return diceList;
 	}
+	public boolean yahtzeeCheck() {
+		return (getDieOne() == getDieTwo() && getDieOne() == getDieThree() && getDieOne() == getDieFour()
+				&& getDieOne() == getDieFive());
+	}
 	@Override
 	public String toString() {
 		return "Die One: " + getDieOne() + " Die Two: " + getDieTwo() + " Die Three: " + getDieThree() + " Die Four: " + getDieFour() + " Die Five: " + getDieFive();
