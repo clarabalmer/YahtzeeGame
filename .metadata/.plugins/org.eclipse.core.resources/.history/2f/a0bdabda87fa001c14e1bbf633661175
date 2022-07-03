@@ -43,7 +43,7 @@ public class YahtzeeGame {
 			if (i == 2) {
 				break;
 			}
-			System.out.println("Choose dice to re-roll! (other characters are ignored, press enter to keep): ");
+			System.out.println("Dice to re-roll (other characters are ignored, press enter to keep): ");
 			reRoll(scnr, roll);
 		}
 		if (noYahtzee) {

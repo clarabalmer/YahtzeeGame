@@ -11,7 +11,7 @@ public class YahtzeeGame {
 		
 		welcome();
 		displayRules();
-		scnr.nextLine();
+		enterContinue(scnr);
 		ScoreCard score = new ScoreCard();
 		//turn level
 		for (int i = 1; i <= 13; i++) {
@@ -43,7 +43,7 @@ public class YahtzeeGame {
 			if (i == 2) {
 				break;
 			}
-			System.out.println("Choose dice to re-roll! (other characters are ignored, press enter to keep): ");
+			System.out.println("Dice to re-roll: ");
 			reRoll(scnr, roll);
 		}
 		if (noYahtzee) {
@@ -55,17 +55,17 @@ public class YahtzeeGame {
 	}
 	public static void yahtzeeSpecial(Scanner scnr, DiceCup roll, ScoreCard score) {
 		System.out.println("\n\n~ ~ ~ ~ ~ ~ YAHTZEE! ~ ~ ~ ~ ~ ~\n\n");
-		scnr.nextLine();
+		enterContinue(scnr);
 		if (score.getStillToScore().contains("y")) {
 			System.out.println("We'll go ahead and score that for you!");
-			scnr.nextLine();
+			enterContinue(scnr);
 			score.setYahtzee(score.scoreYahtzee(roll.diceArray()));;
 			score.removeFromStillToScore("y");
 			score.displayScorecard();
-			scnr.nextLine();
+			enterContinue(scnr);
 		} else if (score.getYahtzeeInt() == 50) {
 			System.out.println("And you've already had " + (score.getYahtzeeBonusCount() + 1) + "!");
-			scnr.nextLine();
+			enterContinue(scnr);
 			System.out.println("We'll add one to your yahtzee bonuses.");
 			score.incrementYahtzeeBonusCount();
 			score.displayScorecard();
@@ -161,7 +161,7 @@ public class YahtzeeGame {
 	}
 	public static void endgame(ScoreCard score, Scanner scnr) {
 		System.out.println("What a game! Lets see how you did:");
-		scnr.nextLine();
+		enterContinue(scnr);
 		score.scoreFinal();
 		score.displayScorecard();
 		if (score.getBonusBool()) {
@@ -202,5 +202,9 @@ public class YahtzeeGame {
 		System.out.println("you get a 100 point yahtzee bonus, and still score the yahtzee in a remaining category.");
 		System.out.println("At the end, if the upper section scored 63 or more, a bonus of 35 is added");
 		System.out.println("Press enter to begin!");
+	}
+
+	public static void enterContinue(Scanner scnr) {
+		scnr.nextLine();
 	}
 }

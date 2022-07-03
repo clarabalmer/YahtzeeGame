@@ -11,13 +11,13 @@ public class YahtzeeGame {
 		
 		welcome();
 		displayRules();
-		scnr.nextLine();
+		enterContinue();
 		ScoreCard score = new ScoreCard();
 		//turn level
 		for (int i = 1; i <= 13; i++) {
 			turn(scnr, score, i);
 		}
-		endgame(score, scnr);
+		endgame(score);
 		System.out.println("I hope you'll play again when I make it two player!");
 		
 		scnr.close();
@@ -43,7 +43,7 @@ public class YahtzeeGame {
 			if (i == 2) {
 				break;
 			}
-			System.out.println("Choose dice to re-roll! (other characters are ignored, press enter to keep): ");
+			System.out.println("Dice to re-roll: ");
 			reRoll(scnr, roll);
 		}
 		if (noYahtzee) {
@@ -55,17 +55,17 @@ public class YahtzeeGame {
 	}
 	public static void yahtzeeSpecial(Scanner scnr, DiceCup roll, ScoreCard score) {
 		System.out.println("\n\n~ ~ ~ ~ ~ ~ YAHTZEE! ~ ~ ~ ~ ~ ~\n\n");
-		scnr.nextLine();
+		enterContinue();
 		if (score.getStillToScore().contains("y")) {
 			System.out.println("We'll go ahead and score that for you!");
-			scnr.nextLine();
+			enterContinue();
 			score.setYahtzee(score.scoreYahtzee(roll.diceArray()));;
 			score.removeFromStillToScore("y");
 			score.displayScorecard();
-			scnr.nextLine();
+			enterContinue();
 		} else if (score.getYahtzeeInt() == 50) {
 			System.out.println("And you've already had " + (score.getYahtzeeBonusCount() + 1) + "!");
-			scnr.nextLine();
+			enterContinue();
 			System.out.println("We'll add one to your yahtzee bonuses.");
 			score.incrementYahtzeeBonusCount();
 			score.displayScorecard();
@@ -140,8 +140,6 @@ public class YahtzeeGame {
 	public static void reRoll(Scanner scnr, DiceCup roll) {
 		Random rand = new Random();
 		String userReroll = scnr.nextLine().toLowerCase();
-		
-		
 		if (userReroll.contains("a")) {
 			roll.setDieOne(1 + Math.abs(rand.nextInt() % 6));
 		}
@@ -159,9 +157,9 @@ public class YahtzeeGame {
 		}
 		
 	}
-	public static void endgame(ScoreCard score, Scanner scnr) {
+	public static void endgame(ScoreCard score) {
 		System.out.println("What a game! Lets see how you did:");
-		scnr.nextLine();
+		enterContinue();
 		score.scoreFinal();
 		score.displayScorecard();
 		if (score.getBonusBool()) {
@@ -180,7 +178,7 @@ public class YahtzeeGame {
 	
 	public static void displayRules() {
 		System.out.println("\nFor thirteen turns, you roll five dice and score them.");
-		System.out.println("Each turn gets two rerolls, where you may select 0-5 dice to roll again.");
+		System.out.println("Each turn gets two rerolls, where you may select any dice to roll again.");
 		System.out.println("After each turn, choose the category in which to score the dice.");
 		System.out.println("\nCategories are as follows:");
 		System.out.println("\nUpper Section:");
@@ -202,5 +200,11 @@ public class YahtzeeGame {
 		System.out.println("you get a 100 point yahtzee bonus, and still score the yahtzee in a remaining category.");
 		System.out.println("At the end, if the upper section scored 63 or more, a bonus of 35 is added");
 		System.out.println("Press enter to begin!");
+	}
+
+	public static void enterContinue() {
+		try {
+			System.in.read();
+		} catch(Exception e) {}
 	}
 }
