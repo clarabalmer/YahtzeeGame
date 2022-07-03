@@ -23,6 +23,7 @@ public class ScoreCard {
 	private int yahtzeeBonusCount = 0;
 	private String chance = "";
 	private String lowerTotal = "";
+	private int endScore = 0;
 	private ArrayList<String> validCategories = new ArrayList<String>(Arrays.asList("a", "2", "3", "4", "5", "6", "3k", "4k", "fh", "ss", "ls", "y", "c"));
 	private ArrayList<String> stillToScore = new ArrayList<String>(Arrays.asList("a", "2", "3", "4", "5", "6", "3k", "4k", "fh", "ss", "ls", "y", "c"));
 	
@@ -268,26 +269,6 @@ public class ScoreCard {
 		}
 		return sum;
 	}
-	public void displayScorecard() {
-		System.out.println("UPPER SECTION:		      CODE|SCORE");
-		System.out.println("Aces				 A|" + aces);
-		System.out.println("Twos				 2|" + twos);
-		System.out.println("Threes				 3|" + threes);
-		System.out.println("Fours				 4|" + fours);
-		System.out.println("Fives				 5|" + fives);
-		System.out.println("Sixes				 6|" + sixes);
-		System.out.println("==================================|" + upperTotal + bonus);
-		System.out.println("LOWER SECTION:		      CODE|SCORE");
-		System.out.println("3 of a Kind			3K|" + threeOfAKind);
-		System.out.println("4 of a Kind			4K|" + fourOfAKind);
-		System.out.println("Full House			FH|" + fullHouse);
-		System.out.println("Small Straight			SS|" + smallStraight);
-		System.out.println("Large Straight			LS|" + largeStraight);
-		System.out.println("Yahtzee				 Y|" + yahtzee);
-		System.out.println("Chance				 C|" + chance);
-		System.out.println("Yahtzee BONUS			  |" + yahtzeeBonusCount + "*100");
-		System.out.println("==================================|" + lowerTotal);
-	}
 	
 	//getters/setters
 	public String getAces() {
@@ -352,6 +333,9 @@ public class ScoreCard {
 	}
 	public void setUpperTotal(String upperTotal) {
 		this.upperTotal = String.valueOf(upperTotal);
+	}
+	public String getBonus() {
+		return bonus;
 	}
 	public boolean getBonusBool() {
 		return bonusBool;
@@ -436,6 +420,12 @@ public class ScoreCard {
 	}
 	public void setLowerTotal(int lowerTotal) {
 		this.lowerTotal = String.valueOf(lowerTotal);
+	}
+	public int getEndScore() {
+		return endScore;
+	}
+	public void setEndScore(int endScore) {
+		this.endScore = endScore;
 	}
 	public ArrayList<String> getValidCategories() {
 		return validCategories;

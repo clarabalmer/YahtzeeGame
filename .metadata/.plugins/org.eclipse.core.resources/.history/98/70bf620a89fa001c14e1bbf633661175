@@ -1,0 +1,12 @@
+
+public class Player {
+	//fields
+	private ScoreCard score;
+	
+	public ScoreCard getScore() {
+		return score;
+	}
+	public void setScore(ScoreCard score) {
+		this.score = score;
+	}
+}

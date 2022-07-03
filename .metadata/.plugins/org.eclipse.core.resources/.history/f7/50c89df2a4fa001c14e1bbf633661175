@@ -1,0 +1,86 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Turn {
+	private DiceCup roll;
+	private Player player;
+	
+	Turn(Player player, DiceCup roll, Scanner scnr) {
+		this.roll = roll;
+		this.player = player;
+	}
+	
+	public static void turn(Scanner scnr, ScoreCard score, int roundNumber) {
+		System.out.println("TURN NUMBER " + roundNumber);
+		DiceCup roll = new DiceCup();
+		boolean noYahtzee = true;
+		
+		for (int i = 0; i < 3; i++) {
+			roll.displayDice();
+			if (roll.yahtzeeCheck()) {
+				noYahtzee = false;
+				yahtzeeSpecial(scnr, roll, score);
+				break;
+			}
+			if (i == 2) {
+				break;
+			}
+			System.out.println("Choose dice to re-roll! (other characters are ignored, press enter to keep): ");
+			reRoll(scnr, roll);
+		}
+		if (noYahtzee) {
+			player.displayScorecard();
+			System.out.print("\nHow would you like to score this roll? ");
+			scoreRoll(scnr, roll, score);
+			System.out.println("Thanks! Score recorded:)\n");
+		}
+	}
+	public static void yahtzeeSpecial(Scanner scnr, DiceCup roll, ScoreCard score) {
+		System.out.println("\n\n~ ~ ~ ~ ~ ~ YAHTZEE! ~ ~ ~ ~ ~ ~\n\n");
+		scnr.nextLine();
+		if (score.getStillToScore().contains("y")) {
+			System.out.println("We'll go ahead and score that for you!");
+			scnr.nextLine();
+			score.setYahtzee(score.scoreYahtzee(roll.diceArray()));;
+			score.removeFromStillToScore("y");
+			displayScorecard();
+			scnr.nextLine();
+		} else if (score.getYahtzeeInt() == 50) {
+			System.out.println("And you've already had " + (score.getYahtzeeBonusCount() + 1) + "!");
+			scnr.nextLine();
+			System.out.println("We'll add one to your yahtzee bonuses.");
+			score.incrementYahtzeeBonusCount();
+			score.displayScorecard();
+			System.out.print("\nHow would you like to score this roll? ");
+			scoreRoll(scnr, roll, score);
+			System.out.println("Thanks! Score recorded:)\n");
+		} else {
+			System.out.println("Dang! You already took a zero in Yahtzee.");
+			System.out.println("How would you like to score this roll? ");
+			scoreRoll(scnr, roll, score);
+			System.out.println("Thanks! Score recorded:)\n");
+		}
+	}
+	public static void reRoll(Scanner scnr, DiceCup roll) {
+		Random rand = new Random();
+		String userReroll = scnr.nextLine().toLowerCase();
+		
+		
+		if (userReroll.contains("a")) {
+			roll.setDieOne(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("b")) {
+			roll.setDieTwo(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("c")) {
+			roll.setDieThree(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("d")) {
+			roll.setDieFour(1 + Math.abs(rand.nextInt() % 6));
+		}
+		if (userReroll.contains("e")) {
+			roll.setDieFive(1 + Math.abs(rand.nextInt() % 6));
+		}
+		
+	}
+}

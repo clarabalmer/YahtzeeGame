@@ -1,0 +1,20 @@
+
+public class Player {
+	//fields
+	private String playerName;
+	private ScoreCard score;
+	
+	//constructor
+	Player(String playerName, ScoreCard score) {
+		this.playerName = playerName;
+		this.score = score;
+	}
+	
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	public ScoreCard getScore() {
+		return score;
+	}
+}
